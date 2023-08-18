@@ -1,0 +1,57 @@
+
+类Transform的源码，需要实现下面四个抽象方法：
+
+```python
+public abstract class Transform {
+
+    /**
+     * Returns the unique name of the transform.
+     *
+     * <p>This is associated with the type of work that the transform does. It does not have to be
+     * unique per variant.
+     */
+    @NonNull
+    public abstract String getName();
+
+    /**
+     * Returns the type(s) of data that is consumed by the Transform. This may be more than
+     * one type.
+     *
+     * <strong>This must be of type {@link QualifiedContent.DefaultContentType}</strong>
+     */
+    @NonNull
+    public abstract Set<ContentType> getInputTypes();
+
+
+    /**
+     * Returns the scope(s) of the Transform. This indicates which scopes the transform consumes.
+     */
+    @NonNull
+    public abstract Set<? super Scope> getScopes();
+
+
+    /**
+     * Returns whether the Transform can perform incremental work.
+     *
+     * <p>If it does, then the TransformInput may contain a list of changed/removed/added files, unless
+     * something else triggers a non incremental run.
+     */
+    public abstract boolean isIncremental();
+
+
+    /**
+     * @deprecated replaced by {@link #transform(TransformInvocation)}.
+     */
+    @Deprecated
+    @SuppressWarnings("UnusedParameters")
+    public void transform(
+            @NonNull Context context,
+            @NonNull Collection<TransformInput> inputs,
+            @NonNull Collection<TransformInput> referencedInputs,
+            @Nullable TransformOutputProvider outputProvider,
+            boolean isIncremental) throws IOException, TransformException, InterruptedException {
+    }
+}
+```
+
+
